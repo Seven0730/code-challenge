@@ -22,7 +22,7 @@ blogd tx blog create-post hello world --from alice --chain-id blog
 ### b. List resources with basic filters
 
 ```bash
-blogd tx blog create-post hello world --from alice --chain-id blog
+blogd q blog list-post
 ```
 
 ### c. Get details of a resource
