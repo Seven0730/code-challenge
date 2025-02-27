@@ -27,8 +27,6 @@ blogd tx blog create-post hello world --from alice --chain-id blog
 
 ### c. Get details of a resource
 
-To create a new blog post, run the following command:
-
 ```bash
 blogd q blog show-post 0
 ```
