@@ -9,4 +9,5 @@ message Post {
   string body = 2; 
   string creator = 3; 
   uint64 id = 4; 
+  uint64 created_at = 5;
 }
