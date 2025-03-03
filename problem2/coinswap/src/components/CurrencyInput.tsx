@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TextField, Box, Button } from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -10,10 +10,31 @@ interface CurrencyInputProps {
 }
 
 function CurrencyInput({ currency, amount, onSelectCurrency, onAmountChange }: CurrencyInputProps) {
+  const [inputValue, setInputValue] = useState(amount === 0 ? "" : amount.toString());
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (document.activeElement !== inputRef.current) {
+      setInputValue(amount === 0 ? "" : amount.toString());
+    }
+  }, [amount]);
+
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
-      onAmountChange(Number(value));
+      setInputValue(value);
+      if (value !== "" && !value.endsWith(".")) {
+        onAmountChange(parseFloat(value));
+      }
+    }
+  };
+
+  const handleBlur = () => {
+    if (inputValue === "" || inputValue === ".") {
+      setInputValue("");
+      onAmountChange(0);
+    } else {
+      onAmountChange(parseFloat(inputValue));
     }
   };
 
@@ -29,8 +50,10 @@ function CurrencyInput({ currency, amount, onSelectCurrency, onAmountChange }: C
     >
       <TextField
         variant="outlined"
-        value={amount.toString() === "0" ? "" : amount.toString()}
+        inputRef={inputRef}
+        value={inputValue}
         onChange={handleAmountChange}
+        onBlur={handleBlur}
         placeholder="0"
         fullWidth
         onClick={() => !currency && onSelectCurrency()}
