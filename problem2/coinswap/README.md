@@ -33,6 +33,7 @@ This will start a local development server. Open **`http://localhost:5173/`** in
 
 ### **Showcase**
 
+`https://seven0730.github.io/code-challenge`
 ![alt text](image.png)
 
 ---
