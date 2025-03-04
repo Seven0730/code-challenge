@@ -2,6 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { TextField, Box, Button } from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
+const tokens = import.meta.glob('../assets/tokens/*.svg', { eager: true, query: '?url', import: 'default' });
+const tokenImages: Record<string, string> = {};
+for (const path in tokens) {
+  const fileName = path.split("/").pop()?.split(".")[0];
+  if (fileName) {
+    tokenImages[fileName] = tokens[path] as string;
+  }
+}
+
 interface CurrencyInputProps {
   currency: string | null;
   amount: number;
@@ -94,7 +103,7 @@ function CurrencyInput({ currency, amount, onSelectCurrency, onAmountChange }: C
         {currency ? (
           <>
             <img
-              src={`/tokens/${currency}.svg`}
+              src={tokenImages[currency] || ""}
               alt={currency}
               style={{ width: 24, height: 24, marginRight: 8 }}
             />

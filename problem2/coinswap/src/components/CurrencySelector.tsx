@@ -1,5 +1,15 @@
 import { Dialog, DialogTitle, List, ListItemText, ListItemButton, Box, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
+import pricesData from "../assets/data/prices.json";
+
+const tokens = import.meta.glob('../assets/tokens/*.svg', { eager: true, query: '?url', import: 'default' });
+const tokenImages: Record<string, string> = {};
+for (const path in tokens) {
+  const fileName = path.split("/").pop()?.split(".")[0];
+  if (fileName) {
+    tokenImages[fileName] = tokens[path] as string;
+  }
+}
 
 interface Price {
   currency: string;
@@ -15,13 +25,8 @@ function CurrencySelector({ open, onClose }: CurrencySelectorProps) {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch('src/data/prices.json')
-      .then(response => response.json())
-      .then((data: Price[]) => {
-        const currencyArray = data.map(item => item.currency);
-        setCurrencies(currencyArray);
-      })
-      .catch(error => console.error('Error fetching data:', error));
+    const currencyArray = (pricesData as Price[]).map(item => item.currency);
+    setCurrencies(currencyArray);
   }, []);
 
   useEffect(() => {
@@ -91,7 +96,7 @@ function CurrencySelector({ open, onClose }: CurrencySelectorProps) {
           >
             <Box display="flex" alignItems="center">
               <img
-                src={`/tokens/${currency}.svg`}
+                src={tokenImages[currency] || ""}
                 alt={currency}
                 style={{ width: 24, height: 24, marginRight: 8 }}
               />

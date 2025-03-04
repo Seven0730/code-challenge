@@ -3,7 +3,7 @@ import { Box, Button, IconButton } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import CurrencySelector from "./CurrencySelector";
 import CurrencyInput from "./CurrencyInput";
-import pricesData from "../data/prices.json";
+import pricesData from "../assets/data/prices.json";
 
 interface PriceData {
   currency: string;
